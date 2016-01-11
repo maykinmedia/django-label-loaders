@@ -1,0 +1,6 @@
+# Python auto-generated
+*.py[c|o]
+__pycache__
+
+# Packaging/distribution
+*.egg-info
