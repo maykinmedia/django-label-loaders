@@ -10,8 +10,6 @@ from django.contrib.sites.models import Site
 from django.template.base import Template, TemplateDoesNotExist
 from django.template.loaders.base import Loader as BaseLoader
 
-# TODO: subclass from cached loader?
-
 
 class Loader(BaseLoader):
     is_usable = True
