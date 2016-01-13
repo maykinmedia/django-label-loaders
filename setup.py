@@ -8,7 +8,7 @@ with open(path.join(path.dirname(__file__), 'README.rst')) as f:
 
 setup(
     name="django-label-templates",
-    version='1.0.0',
+    version='1.0.1',
     license="MIT",
     description="Load templates from site labels if available",
     long_description=readme,
@@ -25,6 +25,8 @@ setup(
        "License :: OSI Approved :: MIT License",
        "Intended Audience :: Developers",
        "Framework :: Django",
+       "Framework :: Django :: 1.8",
+       "Framework :: Django :: 1.9",
        "Programming Language :: Python :: 2.7",
        "Programming Language :: Python :: 3.3",
        "Programming Language :: Python :: 3.4",
