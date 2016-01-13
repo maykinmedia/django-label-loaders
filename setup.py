@@ -10,15 +10,22 @@ setup(
     name="django-label-templates",
     version='1.0.1',
     license="MIT",
+
+    # packaging
+    install_requires=['Django>=1.8', 'django-choices'],
+    include_package_data=True,
+    packages=find_packages(),
+
+    # tests
+    test_suite='runtests.get_suite',
+    tests_require=['coverage'],
+
+    # metadata
     description="Load templates from site labels if available",
     long_description=readme,
-    install_requires=['Django>=1.8'],
-    # test_suite='runtests.get_suite',
-    url="https://github.com/maykinmedia/django-label-templates",
     author="Maykin Media, Sergei Maertens",
     author_email="sergei@maykinmedia.nl",
-    packages=find_packages(),
-    include_package_data=True,
+    url="https://github.com/maykinmedia/django-label-templates",
     classifiers=[
        "Development Status :: 5 - Production/Stable",
        "Operating System :: OS Independent",

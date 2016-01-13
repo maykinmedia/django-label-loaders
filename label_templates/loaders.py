@@ -8,17 +8,17 @@ import warnings
 
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.template import Origin, Template, TemplateDoesNotExist
+from django.template import Template, TemplateDoesNotExist
 from django.template.loaders.base import Loader as BaseLoader
 from django.utils.deprecation import RemovedInDjango20Warning
+
+from .compat import make_origin
 
 
 class Loader(BaseLoader):
     is_usable = True
 
     def __init__(self, engine, loaders):
-        self.template_cache = {}
-        self.find_template_cache = {}
         self.loaders = engine.get_template_loaders(loaders)
         super(Loader, self).__init__(engine)
 
@@ -33,10 +33,12 @@ class Loader(BaseLoader):
                 except TemplateDoesNotExist:
                     pass
                 else:
-                    origin = Origin(
+                    origin = make_origin(
                         name=display_name,
                         template_name=name,
                         loader=loader,
+                        engine=self.engine,
+                        dirs=dirs
                     )
                     return template, origin
         raise TemplateDoesNotExist(', '.join(names))
