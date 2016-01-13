@@ -4,11 +4,13 @@ to find a label-specific template first, while falling back to the generic
 template.
 """
 import os
+import warnings
 
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.template.base import Template, TemplateDoesNotExist
+from django.template import Origin, Template, TemplateDoesNotExist
 from django.template.loaders.base import Loader as BaseLoader
+from django.utils.deprecation import RemovedInDjango20Warning
 
 
 class Loader(BaseLoader):
@@ -31,11 +33,19 @@ class Loader(BaseLoader):
                 except TemplateDoesNotExist:
                     pass
                 else:
-                    origin = self.engine.make_origin(display_name, loader, name, dirs)
+                    origin = Origin(
+                        name=display_name,
+                        template_name=name,
+                        loader=loader,
+                    )
                     return template, origin
         raise TemplateDoesNotExist(', '.join(names))
 
     def load_template(self, template_name, template_dirs=None):
+        warnings.warn(
+            'The load_template() method is deprecated. Use get_template() '
+            'instead.', RemovedInDjango20Warning,
+        )
         site = Site.objects.get_current()
         label = settings.SITELABELS.label_from_site(site)
 
@@ -63,6 +73,11 @@ class Loader(BaseLoader):
 
         Dispatch this to the underlying loaders.
         """
+        warnings.warn(
+            'The load_template_sources() method is deprecated. Use '
+            'get_template() or get_contents() instead.',
+            RemovedInDjango20Warning,
+        )
         for loader in self.loaders:
             try:
                 return loader.load_template_source(template_name, template_dirs=template_dirs)
