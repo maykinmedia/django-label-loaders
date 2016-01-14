@@ -114,15 +114,13 @@ Since the ``{% extends %}`` tag uses the same loader configuration, you can not
 let a label-specific template inherit from a generic template with the same
 name.
 
-A workaround is the following structure:
+A workaround is the following structure::
 
     templates/
-    |
-    +---- mylabel/
-    |   + ---- base.html  # extends _base.html and overrides stuff
-    |
-    +---- base.html  # extends _base.html, overrides nothing
-    +---- _base.html
+    ├── mylabel/
+    |   └── base.html  # extends _base.html and overrides stuff
+    ├── _base.html
+    └── base.html  # extends _base.html, overrides nothing
 
 
 Versions supported
