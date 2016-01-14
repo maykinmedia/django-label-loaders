@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def runtests(args):
+def runtests(args=None):
     test_dir = os.path.dirname(__file__)
     sys.path.insert(0, test_dir)
     os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.settings'

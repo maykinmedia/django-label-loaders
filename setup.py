@@ -17,7 +17,7 @@ setup(
     packages=find_packages(),
 
     # tests
-    test_suite='runtests.get_suite',
+    test_suite='runtests.runtests',
     tests_require=['coverage'],
 
     # metadata

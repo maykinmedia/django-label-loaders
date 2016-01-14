@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 from django.contrib.sites.models import Site
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
-from django.test import override_settings, SimpleTestCase
+from django.test import override_settings, TestCase
 
 
-class LoaderTests(SimpleTestCase):
+class LoaderTests(TestCase):
 
     def setUp(self):
         Site.objects.get_or_create(id=2, domain='example2.com', name='Site 2')
@@ -16,7 +16,7 @@ class LoaderTests(SimpleTestCase):
         Test that 'base.html' from 'app' loads.
         """
         template = get_template('base.html')
-        self.assertEqual(template.template.name, 'base.html')
+        self.assertEqual(template.render(), 'Fallback template\n')
 
     def test_load_app_specific_template(self):
         """
@@ -26,8 +26,7 @@ class LoaderTests(SimpleTestCase):
         Also assert that the generic 'base.html' is used to extend.
         """
         template = get_template('specific.html')
-        self.assertEqual(template.template.name, 'site/specific.html')
-        self.assertEqual(template.render(), 'Fallback template\n')
+        self.assertEqual(template.render(), 'Fallback templateApp label specific\n')
 
     @override_settings(SITE_ID=2)
     def test_load_different_site(self):
@@ -50,3 +49,19 @@ class LoaderTests(SimpleTestCase):
         """
         template = get_template('filesystem.html')
         self.assertEqual(template.render(), 'filesystem\n')
+
+    def test_try_all_loaders_first(self):
+        """
+        Tests that first all loaders are tried for the label-specific template,
+        then all loaders are tried for the generic template.
+
+        `templates/site/order.html` does not exist, so
+        `app/templates/site/order.html` must be retrieved before
+        `templates/order.html`.
+        """
+        template = get_template('order.html')
+        self.assertEqual(template.render(), 'app order\n')
+
+        with self.settings(SITE_ID=2):
+            template = get_template('order.html')
+            self.assertEqual(template.render(), 'generic order\n')
