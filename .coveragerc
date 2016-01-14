@@ -1,6 +1,6 @@
 [run]
 branch = True
-source = label-templates
+source = label_templates
 
 [report]
 omit = */migrations/*,*/tests/*

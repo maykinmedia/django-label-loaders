@@ -23,15 +23,3 @@ class SiteLabels(DjangoChoices):
             return cls.values[site.name]
         except KeyError:
             return cls.values[site.domain]
-
-    @classmethod
-    def choice_from_site(cls, site):
-        label = cls.label_from_site(site)
-        ci = cls._fields[label]
-        return ci
-
-    @classmethod
-    def id_from_sitename(cls, site_name):
-        label = cls.values[site_name]
-        ci = cls._fields[label]
-        return ci.site_id
