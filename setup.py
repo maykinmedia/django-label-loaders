@@ -8,7 +8,7 @@ with open(path.join(path.dirname(__file__), 'README.rst')) as f:
 
 setup(
     name="django-label-templates",
-    version='1.0.1',
+    version='1.0.2',
     license="MIT",
 
     # packaging
